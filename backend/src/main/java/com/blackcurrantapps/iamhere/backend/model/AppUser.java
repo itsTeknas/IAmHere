@@ -21,7 +21,7 @@ public class AppUser {
     public String name;
 
     @Index
-    public Long walletBalance;
+    public Long walletBalance = 0l;
 
     @Unindex
     public String profilePic;

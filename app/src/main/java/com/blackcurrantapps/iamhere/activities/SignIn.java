@@ -1,7 +1,6 @@
 package com.blackcurrantapps.iamhere.activities;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -15,8 +14,8 @@ import android.widget.Toast;
 
 import com.blackcurrantapps.iamhere.Constants;
 import com.blackcurrantapps.iamhere.R;
-import com.blackcurrantapps.iamin.backend.userApi.UserApi;
-import com.blackcurrantapps.iamin.backend.userApi.model.AppUser;
+import com.blackcurrantapps.iamhere.backend.userApi.UserApi;
+import com.blackcurrantapps.iamhere.backend.userApi.model.AppUser;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -45,6 +44,12 @@ public class SignIn extends AppCompatActivity implements GoogleApiClient.OnConne
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences sharedPreferences = getSharedPreferences(Constants.savedSettings,MODE_PRIVATE);
+        if (sharedPreferences.getBoolean(Constants.setupComplete,false)){
+            startActivity(new Intent(this,MainActivity.class));
+        }
+
         setContentView(R.layout.activity_sign_in);
 
         progressDialog = new ProgressDialog(this);
@@ -142,7 +147,6 @@ public class SignIn extends AppCompatActivity implements GoogleApiClient.OnConne
         new AsyncTask<Void, Exception, String> (){
 
 
-            Context context;
             boolean completed = false;
             int backoff = 0;
             String token;
@@ -183,18 +187,18 @@ public class SignIn extends AppCompatActivity implements GoogleApiClient.OnConne
             private boolean Register() {
                 try {
 
-                    InstanceID instanceID = InstanceID.getInstance(context);
+                    InstanceID instanceID = InstanceID.getInstance(SignIn.this);
                     token = instanceID.getToken(getString(R.string.gcm_defaultSenderId),
                             GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
 
                     appUser.setRegId(token);
 
-                    GoogleAccountCredential credential = GoogleAccountCredential.usingAudience(context, Constants.ANDROID_AUDIENCE);
+                    GoogleAccountCredential credential = GoogleAccountCredential.usingAudience(SignIn.this, Constants.ANDROID_AUDIENCE);
                     credential.setSelectedAccountName(email);
                     UserApi.Builder builder = new UserApi.Builder(AndroidHttp.newCompatibleTransport(),
                             new AndroidJsonFactory(), credential)
                             .setApplicationName("IAMIN")
-                            .setRootUrl(Constants.rootUrl);
+                            .setRootUrl(UserApi.DEFAULT_ROOT_URL);
 
                     UserApi appUserApi = builder.build();
 
@@ -220,7 +224,7 @@ public class SignIn extends AppCompatActivity implements GoogleApiClient.OnConne
             @Override
             protected void onProgressUpdate(Exception... values) {
                 super.onProgressUpdate(values);
-                Toast.makeText(context, "Network Error. " + "Trying again in " + backoff + " sec.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignIn.this, "Network Error. " + "Trying again in " + backoff + " sec.", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -228,7 +232,7 @@ public class SignIn extends AppCompatActivity implements GoogleApiClient.OnConne
                 super.onPostExecute(s);
                 if (completed) {
 
-                    Toast.makeText(context, "Registration complete", Toast.LENGTH_LONG).show();
+                    Toast.makeText(SignIn.this, "Registration complete", Toast.LENGTH_LONG).show();
 
                     SharedPreferences settings;
                     settings = getSharedPreferences(Constants.savedSettings, MODE_PRIVATE);
@@ -239,6 +243,7 @@ public class SignIn extends AppCompatActivity implements GoogleApiClient.OnConne
                     edit.putBoolean(Constants.setupComplete, true);
 
                     edit.apply();
+                    startActivity(new Intent(SignIn.this,MainActivity.class));
                     finish();
 
                 }

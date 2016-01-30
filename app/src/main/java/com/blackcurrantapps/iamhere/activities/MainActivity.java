@@ -1,7 +1,6 @@
 package com.blackcurrantapps.iamhere.activities;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
@@ -13,6 +12,12 @@ import android.view.View;
 
 import com.blackcurrantapps.iamhere.Constants;
 import com.blackcurrantapps.iamhere.R;
+import com.blackcurrantapps.iamhere.backend.userApi.UserApi;
+import com.blackcurrantapps.iamhere.fragments.NotificationFrag;
+import com.blackcurrantapps.iamhere.fragments.OffersList;
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.extensions.android.json.AndroidJsonFactory;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -26,7 +31,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainActivityConnect {
 
     private Drawer drawer = null;
     private Toolbar toolbar;
@@ -35,22 +40,27 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        SharedPreferences sharedPreferences = getSharedPreferences(Constants.savedSettings,MODE_PRIVATE);
-        if (sharedPreferences.getBoolean(Constants.setupComplete,false)){
-            startActivity(new Intent(this,SignIn.class));
-        }
-
         setContentView(R.layout.activity_main);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        if (fragmentManager == null) {
+            fragmentManager = getSupportFragmentManager();
+            fragmentManager.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+                @Override
+                public void onBackStackChanged() {
+                    refreshbackIcon();
+                }
+            });
+        }
 
         SetUpDrawer setUpDrawerTask = new SetUpDrawer(this, savedInstanceState);
         setUpDrawerTask.execute();
 
     }
 
+    @Override
     public void addFragment(android.support.v4.app.Fragment fragment, boolean isRoot) {
 
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -72,6 +82,40 @@ public class MainActivity extends AppCompatActivity {
 
     public void onUpwardNavigation() {
         fragmentManager.popBackStack();
+    }
+
+    @Override
+    public void showIntermediateProgress() {
+
+    }
+
+    @Override
+    public void hideIntermediateProgress() {
+
+    }
+
+    @Override
+    public void setToolbarTitle(String title) {
+        getSupportActionBar().setTitle(title);
+    }
+
+    @Override
+    public UserApi.UserApiOperations getAppUserApi() {
+        GoogleAccountCredential credential = GoogleAccountCredential.usingAudience(this, Constants.ANDROID_AUDIENCE);
+        credential.setSelectedAccountName(getSharedPreferences(Constants.savedSettings,MODE_PRIVATE).getString(Constants.emailPref,""));
+        UserApi.Builder builder = new UserApi.Builder(AndroidHttp.newCompatibleTransport(),
+                new AndroidJsonFactory(), credential)
+                .setApplicationName("IAmHere")
+                .setRootUrl(UserApi.DEFAULT_ROOT_URL);
+
+        UserApi appUserApi = builder.build();
+
+        return appUserApi.userApi();
+    }
+
+    @Override
+    public void refreshbackIcon() {
+
     }
 
     private class SetUpDrawer extends AsyncTask<Void, Void, Void> {
@@ -154,6 +198,16 @@ public class MainActivity extends AppCompatActivity {
                             switch (position) {
 
                                 case 1:
+
+                                    OffersList offersList = new OffersList();
+                                    addFragment(offersList,true);
+
+                                    break;
+
+                                case 2:
+
+                                    NotificationFrag notificationFrag = new NotificationFrag();
+                                    addFragment(notificationFrag,true);
 
                                     break;
                             }

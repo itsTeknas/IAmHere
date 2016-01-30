@@ -15,7 +15,9 @@
             <param-name>services</param-name>
             <param-value>
 
-                com.blackcurrantapps.iamhere.backend.api.UserApi
+                com.blackcurrantapps.iamhere.backend.api.UserApi,
+                com.blackcurrantapps.iamhere.backend.api.AdminApi,
+                com.blackcurrantapps.iamhere.backend.api.ManagerApi
 
             </param-value>
         </init-param>

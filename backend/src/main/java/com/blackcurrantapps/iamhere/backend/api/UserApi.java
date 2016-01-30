@@ -5,6 +5,7 @@ import com.blackcurrantapps.iamhere.backend.model.AppUser;
 import com.blackcurrantapps.iamhere.backend.model.Offer;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiNamespace;
+import com.google.api.server.spi.config.Named;
 import com.google.api.server.spi.response.UnauthorizedException;
 import com.google.appengine.api.users.User;
 
@@ -28,8 +29,8 @@ import static com.blackcurrantapps.iamhere.backend.OfyService.ofy;
         },
         scopes = {Constants.EMAIL_SCOPE, com.google.api.server.spi.Constant.API_EMAIL_SCOPE},
         audiences = {Constants.ANDROID_AUDIENCE},
-        namespace = @ApiNamespace(ownerDomain = "Backend.iamin.BlackCurrantApps.com",
-                ownerName = "Backend.iamin.BlackCurrantApps.com",
+        namespace = @ApiNamespace(ownerDomain = "Backend.iamhere.BlackCurrantApps.com",
+                ownerName = "Backend.iamhere.BlackCurrantApps.com",
                 packagePath = ""))
 public class UserApi {
 
@@ -52,6 +53,11 @@ public class UserApi {
 
     public List<Offer> getOffers(){
         return ofy().load().type(Offer.class).list();
+    }
+
+    public Offer claimOffer(@Named("offerID") Long offerID,User auth){
+
+        return new Offer();
     }
 
     protected AppUser findDuplicate(String email) {
