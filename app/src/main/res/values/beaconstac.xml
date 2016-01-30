@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- whether rule processing is enabled -->
-    <bool name="ruleProcessingEnabled">true</bool>
+    <bool name="ruleProcessingEnabled">false</bool>
 
     <!-- time interval in seconds between rule syncs -->
     <integer name="ruleSyncInterval">86400</integer>

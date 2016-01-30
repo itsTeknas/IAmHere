@@ -52,6 +52,29 @@
 
         <service android:name="com.mobstac.beaconstac.core.MSBLEService" android:enabled="true"/>
 
+        <receiver android:name=".BeaconReceiver" android:exported="false">
+            <intent-filter>
+                <action android:name="com.mobstac.beaconstac.intent.action.RANGED_BEACON" />
+                <action android:name="com.mobstac.beaconstac.intent.action.CAMPED_BEACON" />
+                <action android:name="com.mobstac.beaconstac.intent.action.EXITED_BEACON" />
+                <action android:name="com.mobstac.beaconstac.intent.action.TRIGGERED_RULE" />
+                <action android:name="com.mobstac.beaconstac.intent.action.ENTERED_REGION" />
+                <action android:name="com.mobstac.beaconstac.intent.action.EXITED_REGION" />
+                <action android:name="com.mobstac.beaconstac.intent.action.ENTERED_GEOFENCE" />
+                <action android:name="com.mobstac.beaconstac.intent.action.EXITED_GEOFENCE" />
+            </intent-filter>
+        </receiver>
+
+        <provider
+            android:name=".MyContentProvider"
+            android:authorities="@string/provider"
+            android:enabled="true"
+            android:exported="false"
+            android:multiprocess="true"
+            android:grantUriPermissions="true"
+            android:syncable="true" >
+        </provider>
+
     </application>
 
 </manifest>
