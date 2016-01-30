@@ -3,6 +3,7 @@ package com.blackcurrantapps.iamhere.backend.api;
 import com.blackcurrantapps.iamhere.backend.Constants;
 import com.blackcurrantapps.iamhere.backend.model.AppUser;
 import com.blackcurrantapps.iamhere.backend.model.LOG;
+import com.blackcurrantapps.iamhere.backend.model.Manager;
 import com.blackcurrantapps.iamhere.backend.model.Offer;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiNamespace;
@@ -12,7 +13,17 @@ import com.google.appengine.api.oauth.OAuthRequestException;
 import com.google.appengine.api.users.User;
 
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Logger;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
+import sun.jvm.hotspot.debugger.AddressException;
 
 import static com.blackcurrantapps.iamhere.backend.OfyService.ofy;
 
@@ -81,6 +92,44 @@ public class UserApi {
 
     public AppUser getUser(User auth){
         return ofy().load().type(AppUser.class).id(auth.getEmail().toLowerCase()).now();
+    }
+
+    public void payToShop(@Named("managerEmail") String managerEmail, @Named("amount") int amount, User auth){
+
+        Manager manager = ofy().load().type(Manager.class).id(managerEmail).now();
+        AppUser appUser = ofy().load().type(AppUser.class).id(auth.getEmail().toLowerCase().trim()).now();
+
+        if (appUser.walletBalance>amount){
+            appUser.walletBalance -= amount;
+            manager.amountOwed += amount;
+            ofy().save().entity(manager);
+            ofy().save().entity(appUser);
+
+            String msgBody = 	"You have received "+amount+" Beacon Coins from "+auth.getEmail().toLowerCase()+"\nYour current balance is "+manager.amountOwed;
+
+            Properties props = new Properties();
+            Session session = Session.getDefaultInstance(props, null);
+            try {
+
+                Message msg = new MimeMessage(session);
+                msg.setFrom(new InternetAddress("sanket.berde@gmail.com", "I AM HERE Admin"));
+                msg.addRecipient(Message.RecipientType.TO,
+                        new InternetAddress(String.valueOf(managerEmail)));
+                msg.setSubject("Payment Confirmation");
+                msg.setText(msgBody);
+                Transport.send(msg);
+
+
+            } catch (AddressException e) {
+                // ...
+            } catch (MessagingException e) {
+                // ...
+            } catch (Exception e){
+
+            }
+
+        }
+
     }
 
     protected AppUser findDuplicate(String email) {

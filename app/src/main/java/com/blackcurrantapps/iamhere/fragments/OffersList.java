@@ -87,6 +87,8 @@ public class OffersList extends Fragment {
     public void onStart() {
         super.onStart();
 
+        mainActivityConnect.showIntermediateProgress();
+
         new AsyncTask<Void,Void,Boolean>(){
 
             List<Offer> offerList = new ArrayList<Offer>();
@@ -108,6 +110,7 @@ public class OffersList extends Fragment {
             @Override
             protected void onPostExecute(Boolean completed) {
                 super.onPostExecute(completed);
+                mainActivityConnect.hideIntermediateProgress();
                 if (completed){
                     offerAdapter.offerList = offerList;
                     offerAdapter.notifyDataSetChanged();

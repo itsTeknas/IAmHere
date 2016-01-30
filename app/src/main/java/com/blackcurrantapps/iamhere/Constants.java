@@ -56,4 +56,6 @@ public class Constants {
     public static final String  SHOW_CODE = "SHOW_CODE";
     public static final String SMS_NUMBER = "SMS_NUMBER";
 
+    public static final String qrResult = "QR_RESULT";
+
 }

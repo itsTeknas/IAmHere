@@ -15,7 +15,8 @@
             android:text="1000 Bacons"
             android:id="@+id/walletBalance"
             android:layout_gravity="center"
-            android:textColor="@color/md_green_600" />
+            android:textColor="@color/md_green_600"
+            android:textSize="50sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -24,14 +25,31 @@
             android:text="Your Wallet Balance is"
             android:id="@+id/textView2"
             android:layout_gravity="center"
-            android:layout_marginBottom="50dp" />
+            android:layout_marginBottom="50dp"
+            android:textSize="20sp" />
 
-        <Button
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Redeem"
-            android:id="@+id/redeem"
-            android:layout_gravity="center"
-            android:layout_marginTop="100dp" />
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="100dp">
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="numberSigned"
+                android:ems="10"
+                android:id="@+id/redeemAmount"
+                android:layout_gravity="center"
+                android:gravity="center" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Redeem"
+                android:id="@+id/redeem"
+                android:layout_gravity="center" />
+        </LinearLayout>
     </FrameLayout>
 </LinearLayout>

@@ -1,5 +1,6 @@
 package com.blackcurrantapps.iamhere.activities;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -37,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityConne
     private Toolbar toolbar;
     private android.support.v4.app.FragmentManager fragmentManager;
 
+    ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +60,13 @@ public class MainActivity extends AppCompatActivity implements MainActivityConne
 
         SetUpDrawer setUpDrawerTask = new SetUpDrawer(this, savedInstanceState);
         setUpDrawerTask.execute();
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Have Patience");
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+
 
     }
 
@@ -86,12 +96,12 @@ public class MainActivity extends AppCompatActivity implements MainActivityConne
 
     @Override
     public void showIntermediateProgress() {
-
+        if (progressDialog!=null) progressDialog.show();
     }
 
     @Override
     public void hideIntermediateProgress() {
-
+        if (progressDialog!=null) progressDialog.dismiss();
     }
 
     @Override

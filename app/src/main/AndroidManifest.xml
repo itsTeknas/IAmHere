@@ -38,10 +38,12 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.MainActivity">
+        <activity android:name=".activities.MainActivity"
+            android:screenOrientation="portrait">
 
         </activity>
-        <activity android:name=".activities.SignIn">
+        <activity android:name=".activities.SignIn"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -74,6 +76,12 @@
             android:grantUriPermissions="true"
             android:syncable="true" >
         </provider>
+
+        <activity
+            android:name=".QRScanner"
+            android:label="Scan Shops QR Code"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppOverlayTheme" />
 
     </application>
 
