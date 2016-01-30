@@ -228,6 +228,8 @@ public class OffersList extends Fragment {
             OfferDetail offerDetail = new OfferDetail();
             Bundle args = new Bundle();
             args.putString("UUID",offerList.get(position).getBeaconId());
+            args.putLong("OFFER_ID",offerList.get(position).getId());
+            args.putString("INFO",offerList.get(position).getRedeemInstructions());
             offerDetail.setArguments(args);
             mainActivityConnect.addFragment(offerDetail,false);
 

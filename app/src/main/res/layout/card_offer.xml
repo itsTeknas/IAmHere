@@ -50,7 +50,8 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textIsSelectable="false"
                 android:textColor="#FFFFFF"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:visibility="gone" />
 
             <TextView
                 android:layout_width="match_parent"

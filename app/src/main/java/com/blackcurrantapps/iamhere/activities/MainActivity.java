@@ -176,7 +176,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityConne
                     .withSelectedItem(0)
                     .addDrawerItems(
                             new PrimaryDrawerItem().withName("Offers").withIcon(GoogleMaterial.Icon.gmd_my_location),
-                            new PrimaryDrawerItem().withName("Notifications").withIcon(GoogleMaterial.Icon.gmd_notifications)
+                            new PrimaryDrawerItem().withName("My Wallet").withIcon(GoogleMaterial.Icon.gmd_account_balance_wallet)
 
                     ) // add the items we want to use with our Drawer
                     .withOnDrawerNavigationListener(new Drawer.OnDrawerNavigationListener() {
@@ -221,7 +221,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityConne
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             drawer = drawerBuilder.build();
-            drawer.setSelectionAtPosition(1, false);
+            drawer.setSelectionAtPosition(1, true);
         }
     }
 }

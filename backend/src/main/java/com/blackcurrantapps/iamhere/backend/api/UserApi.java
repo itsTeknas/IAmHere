@@ -2,11 +2,13 @@ package com.blackcurrantapps.iamhere.backend.api;
 
 import com.blackcurrantapps.iamhere.backend.Constants;
 import com.blackcurrantapps.iamhere.backend.model.AppUser;
+import com.blackcurrantapps.iamhere.backend.model.LOG;
 import com.blackcurrantapps.iamhere.backend.model.Offer;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiNamespace;
 import com.google.api.server.spi.config.Named;
 import com.google.api.server.spi.response.UnauthorizedException;
+import com.google.appengine.api.oauth.OAuthRequestException;
 import com.google.appengine.api.users.User;
 
 import java.util.List;
@@ -55,9 +57,30 @@ public class UserApi {
         return ofy().load().type(Offer.class).list();
     }
 
-    public Offer claimOffer(@Named("offerID") Long offerID,User auth){
+    public Offer claimOffer(@Named("offerID") Long offerID,User auth) throws OAuthRequestException {
 
-        return new Offer();
+        if (auth!=null){
+            AppUser appUser = ofy().load().type(AppUser.class).id(auth.getEmail().toLowerCase()).now();
+            Offer offer = ofy().load().type(Offer.class).id(offerID).now();
+
+            appUser.walletBalance += offer.offerValue;
+
+            ofy().save().entity(appUser);
+
+            LOG log = new LOG();
+            log.offerAmountClaimed = offer.offerValue;
+            log.userEmail = auth.getEmail().toLowerCase().trim();
+            log.offerID = offerID;
+
+            ofy().save().entity(log).now();
+
+            return offer;
+
+        } else throw new OAuthRequestException("Login");
+    }
+
+    public AppUser getUser(User auth){
+        return ofy().load().type(AppUser.class).id(auth.getEmail().toLowerCase()).now();
     }
 
     protected AppUser findDuplicate(String email) {

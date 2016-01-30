@@ -48,6 +48,7 @@ public class SignIn extends AppCompatActivity implements GoogleApiClient.OnConne
         SharedPreferences sharedPreferences = getSharedPreferences(Constants.savedSettings,MODE_PRIVATE);
         if (sharedPreferences.getBoolean(Constants.setupComplete,false)){
             startActivity(new Intent(this,MainActivity.class));
+            finish();
         }
 
         setContentView(R.layout.activity_sign_in);
