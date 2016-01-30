@@ -8,5 +8,5 @@ import android.support.v4.app.Fragment;
  */
 
 
-public class NotificationFrag extends Fragment {
+public class MyWallet extends Fragment {
 }

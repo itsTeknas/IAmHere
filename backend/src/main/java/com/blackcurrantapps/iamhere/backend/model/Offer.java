@@ -19,10 +19,10 @@ public class Offer {
     public String creative_Url;
 
     @Index
-    public Long latitude;
+    public Double latitude;
 
     @Index
-    public Long longitude;
+    public Double longitude;
 
     @Index
     public Long offerValue;

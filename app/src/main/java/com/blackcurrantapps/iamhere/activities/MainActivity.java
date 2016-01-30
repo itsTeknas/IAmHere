@@ -13,7 +13,7 @@ import android.view.View;
 import com.blackcurrantapps.iamhere.Constants;
 import com.blackcurrantapps.iamhere.R;
 import com.blackcurrantapps.iamhere.backend.userApi.UserApi;
-import com.blackcurrantapps.iamhere.fragments.NotificationFrag;
+import com.blackcurrantapps.iamhere.fragments.MyWallet;
 import com.blackcurrantapps.iamhere.fragments.OffersList;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityConne
                     .withAccountHeader(headerResult) //set the AccountHeader we created earlier for the header
                     .withSelectedItem(0)
                     .addDrawerItems(
-                            new PrimaryDrawerItem().withName("Track Folks").withIcon(GoogleMaterial.Icon.gmd_my_location),
+                            new PrimaryDrawerItem().withName("Offers").withIcon(GoogleMaterial.Icon.gmd_my_location),
                             new PrimaryDrawerItem().withName("Notifications").withIcon(GoogleMaterial.Icon.gmd_notifications)
 
                     ) // add the items we want to use with our Drawer
@@ -206,7 +206,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityConne
 
                                 case 2:
 
-                                    NotificationFrag notificationFrag = new NotificationFrag();
+                                    MyWallet notificationFrag = new MyWallet();
                                     addFragment(notificationFrag,true);
 
                                     break;

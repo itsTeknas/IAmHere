@@ -11,8 +11,11 @@
 
     <!--Dangerous Permissions-->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
     <!--Unknown Permissions -->
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
@@ -21,6 +24,10 @@
     <permission
         android:name="com.blackcurrantapps.iamhere.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
+
+    <uses-feature
+        android:name="android.hardware.bluetooth_le"
+        android:required="false" />
 
 
     <application
@@ -41,6 +48,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+        <service android:name="com.mobstac.beaconstac.core.MSBLEService" android:enabled="true"/>
+
     </application>
 
 </manifest>

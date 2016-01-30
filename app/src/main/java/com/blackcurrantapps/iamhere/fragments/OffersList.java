@@ -134,7 +134,7 @@ public class OffersList extends Fragment {
             final OfferDisplay offerDisplay = (OfferDisplay) holder;
 
             offerDisplay.locationName.setText(offerList.get(position).getLocationName());
-            offerDisplay.offerValue.setText(offerList.get(position).getOfferValue().toString() + "Bacons !");
+            offerDisplay.offerValue.setText(offerList.get(position).getOfferValue().toString() + " Beacon Coins");
 
             View.OnClickListener listener = new View.OnClickListener() {
                 @Override
