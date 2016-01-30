@@ -2,11 +2,13 @@ package com.blackcurrantapps.iamhere.backend.api;
 
 import com.blackcurrantapps.iamhere.backend.Constants;
 import com.blackcurrantapps.iamhere.backend.model.AppUser;
+import com.blackcurrantapps.iamhere.backend.model.Offer;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiNamespace;
 import com.google.api.server.spi.response.UnauthorizedException;
 import com.google.appengine.api.users.User;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 import static com.blackcurrantapps.iamhere.backend.OfyService.ofy;
@@ -46,6 +48,10 @@ public class UserApi {
                 ofy().save().entity(appUser);
             }
         } else throw new UnauthorizedException("Please authenticate first.");
+    }
+
+    public List<Offer> getOffers(){
+        return ofy().load().type(Offer.class).list();
     }
 
     protected AppUser findDuplicate(String email) {

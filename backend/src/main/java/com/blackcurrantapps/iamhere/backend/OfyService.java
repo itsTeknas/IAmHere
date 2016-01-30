@@ -1,6 +1,7 @@
 package com.blackcurrantapps.iamhere.backend;
 
 import com.blackcurrantapps.iamhere.backend.model.AppUser;
+import com.blackcurrantapps.iamhere.backend.model.Offer;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
@@ -13,6 +14,7 @@ public class OfyService {
 
     static {
         ObjectifyService.register(AppUser.class);
+        ObjectifyService.register(Offer.class);
 
     }
 

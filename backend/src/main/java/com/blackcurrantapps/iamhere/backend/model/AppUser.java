@@ -20,6 +20,9 @@ public class AppUser {
     @Index
     public String name;
 
+    @Index
+    public Long walletBalance;
+
     @Unindex
     public String profilePic;
 

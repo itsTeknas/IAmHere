@@ -2,13 +2,33 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.blackcurrantapps.iamhere">
 
+    <!--Normal Permissions-->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <!--Dangerous Permissions-->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <!--Unknown Permissions -->
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="com.blackcurrantapps.iamhere.permission.C2D_MESSAGE" />
+
+    <permission
+        android:name="com.blackcurrantapps.iamhere.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
 
     <application
         android:name=".Global"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activities.MainActivity">
@@ -18,7 +38,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.SignIn"></activity>
+        <activity android:name=".activities.SignIn">
+        </activity>
     </application>
 
 </manifest>
