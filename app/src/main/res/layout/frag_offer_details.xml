@@ -30,7 +30,9 @@
                 android:text="Searching"
                 android:id="@+id/beaconStatus"
                 android:layout_gravity="center"
-                android:layout_marginTop="50dp" />
+                android:layout_marginTop="50dp"
+                android:textStyle="bold|italic"
+                android:textSize="30dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -39,7 +41,10 @@
                 android:text="Redeem Instructions"
                 android:id="@+id/instructions"
                 android:layout_gravity="center_horizontal|bottom"
-                android:layout_marginBottom="100dp" />
+                android:layout_marginBottom="100dp"
+                android:padding="16dp"
+                android:textStyle="bold|italic"
+                android:textSize="20sp" />
 
         </FrameLayout>
     </LinearLayout>

@@ -101,7 +101,9 @@ public class OfferDetail extends Fragment {
                 if (aBoolean){
                     if (getView()!=null){
                         mainActivityConnect.hideIntermediateProgress();
+
                         imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_bluetooth_connected_black_48dp));
+
                         status.setText("Offer Claimed");
                         instructions.setVisibility(View.GONE);
                     }

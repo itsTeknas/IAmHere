@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.blackcurrantapps.iamhere.Constants;
 import com.blackcurrantapps.iamhere.QRScanner;
@@ -34,6 +35,7 @@ public class MyWallet extends Fragment {
     MainActivityConnect mainActivityConnect;
 
     EditText redeemAmount;
+    TextView walletamount;
 
     AppUser appUser = new AppUser();
 
@@ -92,6 +94,10 @@ public class MyWallet extends Fragment {
                             mainActivityConnect.hideIntermediateProgress();
                         }
 
+                        redeemAmount.setText("0");
+                        appUser.setWalletBalance( appUser.getWalletBalance() - reddemamt);
+                        walletamount.setText(appUser.getWalletBalance() + " Beacon Coins");
+
                     }
                 }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
@@ -103,7 +109,8 @@ public class MyWallet extends Fragment {
     public void onStart() {
         super.onStart();
 
-        final TextView walletamount = (TextView)getView().findViewById(R.id.walletBalance);
+
+        walletamount = (TextView)getView().findViewById(R.id.walletBalance);
         walletamount.setAlpha(0f);
 
         redeemAmount = (EditText) getView().findViewById(R.id.redeemAmount);
@@ -118,10 +125,13 @@ public class MyWallet extends Fragment {
                         .setPositiveButton("Scan", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                if (Integer.valueOf(redeemAmount.getText().toString())>=appUser.getWalletBalance())
-                                startActivityForResult(new Intent(getActivity(), QRScanner.class), 123);
+                                if (Integer.valueOf(redeemAmount.getText().toString())<=appUser.getWalletBalance()){
+                                    startActivityForResult(new Intent(getActivity(), QRScanner.class), 123);
+                                } else {
+                                    Toast.makeText(getActivity(), "Not Enough Balance", Toast.LENGTH_LONG).show();
+                                }
                             }
-                        });
+                        }).show();
             }
         });
 

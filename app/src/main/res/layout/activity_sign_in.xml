@@ -25,7 +25,15 @@
             android:visibility="visible"
             android:text="@string/common_signin_button_text_long"
             android:layout_gravity="center_horizontal|bottom"
-            android:layout_marginBottom="100dp" />
+            android:layout_marginBottom="70dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView"
+            android:layout_gravity="center"
+            android:src="@drawable/logo"
+            android:layout_marginBottom="50dp" />
 
     </FrameLayout>
 
